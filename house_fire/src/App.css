@@ -4,6 +4,10 @@
   margin: 0 auto;
   text-align: center;
 }
+.container {
+  overflow-y: auto; /* Allows vertical scrolling */
+  padding-bottom: 80px; /* Adjust to match banner height, avoids overlap */
+}
 
 .title {
   text-align: center;
@@ -35,6 +39,7 @@ button {
   outline: none;
   box-shadow: none;
   border-color: #DEDBD2;
+  margin-bottom: 200px;
 }
 
 .stream-placeholder,
@@ -45,20 +50,72 @@ button {
 }
 
 body {
-  background-color: #2C2C34;
+  /*background-color: #2C2C34;*/
   margin: 0;
   padding: 0;
   color: #DEDBD2;
+  background: linear-gradient(180deg, #1C1C22, #2C2C34);
 }
+
+.empty-space {
+  height: 400px; /* Creates 50px of empty space */
+}
+
 
 .banner {
   position: fixed;
+  left: 0;
   bottom: 0;
   width: 100%;
-  text-align: center;
+
 }
 
 .banner img {
   max-width: 100%;
-  height: auto;
+  /*height: auto;*/
+  height: 390px; /* Set this to the desired height */
+  width: 100%;
+  object-fit: fill;
+  animation: flicker 1.5s infinite ease-in-out;
+
 }
+
+.funny_text {
+  font-size: x-large;
+}
+
+@keyframes flicker {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  10% {
+    transform: translateY(-2px) scale(1.02);
+    filter: hue-rotate(-5deg) brightness(1.2);
+  }
+  20% {
+    transform: translateY(-1px) scale(1.03);
+    filter: hue-rotate(5deg) brightness(0.8);
+  }
+  30% {
+    transform: translateY(0) scale(1.01);
+    filter: hue-rotate(-2.5deg) brightness(1.1);
+  }
+  40% {
+    transform: translateY(-1px) scale(1.02);
+    filter: hue-rotate(2.5deg) brightness(0.9);
+  }
+  60% {
+    transform: translateY(1px) scale(1);
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  70% {
+    transform: translateY(-1px) scale(1.04);
+    filter: hue-rotate(-5deg) brightness(1.2);
+  }
+  90% {
+    transform: translateY(0) scale(1.02);
+    filter: hue-rotate(2.5deg) brightness(0.95);
+  }
+}
+

@@ -33,8 +33,12 @@ function IsMyHouseOnFire() {
                         />
                         <button onClick={handleConnect}>Connect</button>
                     </div>
+                    <div className="funny_text">
+                        <h2>Enter Your Device Code to Find Out!</h2>
+                    </div>
+                    <div className="empty-space"></div> {/* Adds empty space */}
                     <div className="banner">
-                        <img src="/flames.svg" alt="Banner"/>
+                        <img src="/flames.png" alt="Banner"/>
                     </div>
                 </div>
             ) : (
