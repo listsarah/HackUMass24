@@ -91,8 +91,10 @@ function IsMyHouseOnFire() {
                             <p>Graphs will appear here.</p>
                         </div>
                     </div>
-                    <button onClick={handleDisconnect}>Disconnect</button>
 
+                    <div className="disconnect_button">
+                        <button onClick={handleDisconnect}>Disconnect</button>
+                    </div>
                     <div
                         className="adaptive_banner"
                         style={{
