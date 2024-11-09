@@ -39,7 +39,10 @@ button {
   outline: none;
   box-shadow: none;
   border-color: #DEDBD2;
-  margin-bottom: 200px;
+}
+
+.wrong_code{
+  color: #AE2012;
 }
 
 .stream-placeholder,
@@ -81,6 +84,7 @@ body {
 }
 
 .funny_text {
+  margin-top: 200px;
   font-size: x-large;
 }
 

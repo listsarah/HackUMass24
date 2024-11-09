@@ -3,11 +3,16 @@ import './App.css';
 
 function IsMyHouseOnFire() {
     const [deviceCode, setDeviceCode] = useState('');
-    const [isConnected, setIsConnected] = useState(false); // Track connection status
+    const [isConnected, setIsConnected] = useState(false);
+    const [incorrectCode, setIncorrectCode] = useState(false);
 
     const handleConnect = () => {
         console.log(`Connecting to device with code: ${deviceCode}`);
-        setIsConnected(true); // Set as connected to display main content
+        setDeviceCode("")
+        if(deviceCode === '51413'){
+            setIsConnected(true);
+            setIncorrectCode(false);}
+        else setIncorrectCode(true);
     };
 
     const handleDisconnect = () => {
@@ -33,6 +38,11 @@ function IsMyHouseOnFire() {
                         />
                         <button onClick={handleConnect}>Connect</button>
                     </div>
+                    {incorrectCode && (
+                        <div className="wrong_code">
+                            <h3>Incorrect Code, Try Again! </h3>
+                        </div> )
+                    }
                     <div className="funny_text">
                         <h2>Enter Your Device Code to Find Out!</h2>
                     </div>
