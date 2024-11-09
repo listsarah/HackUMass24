@@ -246,6 +246,9 @@ body {
   .right-section{
     display: none;
   }
+  .hidden-button{
+    display: none;
+  }
 }
 
 .right-section-main {
@@ -253,4 +256,18 @@ body {
   align-items: center;
   gap: 10px;
   padding-left: 800px;
+}
+
+.hidden-button{
+  background-color: #2C2C34;
+  border: none;
+  border-radius: 4px;
+}
+
+.liza {
+  width: 50%;
+  padding-bottom: 40px;
+}
+.returnButton {
+  justify-content: center;
 }
