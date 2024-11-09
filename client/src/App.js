@@ -125,7 +125,6 @@ function IsMyHouseOnFire() {
 
                             <div className="right-section-main">
                                 <button onClick={handleDisconnect}>Disconnect</button>
-                                <button onClick={handleHiddenButton}>Hidden Button</button>
                             </div>
                         </div>
                         <div className="title">
