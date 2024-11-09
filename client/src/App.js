@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function IsMyHouseOnFire() {
     const [deviceCode, setDeviceCode] = useState('');
     const [isConnected, setIsConnected] = useState(false);
     const [incorrectCode, setIncorrectCode] = useState(false);
+    const [ovenOnDuration, setOvenOnDuration] = useState(0);
+    const [ovenOnDetected, setOvenOnDetected] = useState(true);
 
     const handleConnect = () => {
         console.log(`Connecting to device with code: ${deviceCode}`);
@@ -19,6 +21,23 @@ function IsMyHouseOnFire() {
         console.log(`Disconnected from device with code: ${deviceCode}`);
         setIsConnected(false);
     }
+
+    useEffect(() => {
+        let interval;
+        if (isConnected && ovenOnDetected) {
+            interval = setInterval(() => {
+                setOvenOnDuration(prevDuration => prevDuration + 1);
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [isConnected]);
+
+    const getStatusMessage = () => {
+        if (ovenOnDuration < 5) {
+            return "Probably Not";
+        } else  {
+            return "Probably"; }
+    };
 
     return (
         <div className="container">
@@ -54,6 +73,12 @@ function IsMyHouseOnFire() {
             ) : (
                 // Main Content Page
                 <div className="main-content">
+                    <div className="title">
+                        <h1>{getStatusMessage()}</h1>
+                    </div>
+                    <div className="oven_on_text">
+                        <h2>Oven Has Been On For: {ovenOnDuration} Seconds</h2>
+                    </div>
                     <div className="streaming-section">
                         <h2>Live Stream</h2>
                         <div className="stream-placeholder">
@@ -67,6 +92,19 @@ function IsMyHouseOnFire() {
                         </div>
                     </div>
                     <button onClick={handleDisconnect}>Disconnect</button>
+
+                    <div
+                        className="adaptive_banner"
+                        style={{
+                            maxWidth: '100%',
+                            height: `${Math.min(10*ovenOnDuration+100, 500)}px`,
+                            width: '100%',
+                            objectFit: 'fill',
+                            animation: 'flicker 1.5s infinite ease-in-out'
+                        }}
+                    >
+                        <img src="/flames.png" alt="Banner"/>
+                    </div>
                 </div>
             )}
         </div>

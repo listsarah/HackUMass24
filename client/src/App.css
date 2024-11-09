@@ -75,8 +75,7 @@ body {
 
 .banner img {
   max-width: 100%;
-  /*height: auto;*/
-  height: 390px; /* Set this to the desired height */
+  height: 390px;
   width: 100%;
   object-fit: fill;
   animation: flicker 1.5s infinite ease-in-out;
@@ -121,5 +120,17 @@ body {
     transform: translateY(0) scale(1.02);
     filter: hue-rotate(2.5deg) brightness(0.95);
   }
+}
+
+.title  {
+  font-size: 50px;
+}
+
+.adaptive_banner {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+
 }
 
