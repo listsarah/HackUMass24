@@ -35,12 +35,51 @@ function IsMyHouseOnFire() {
     const getStatusMessage = () => {
         if (ovenOnDuration < 5) {
             return "Probably Not";
-        } else  {
+        } else if(ovenOnDuration<30) {
             return "Probably"; }
+        else{
+            return "For Sure";
+        }
+    };
+
+    const getGradientColor = () => {
+        const maxDuration = 30; // Maximum duration for full transition to red
+        const duration = Math.min(ovenOnDuration, maxDuration);
+        const ratio = duration / maxDuration;
+
+        // Start color (#DEDBD2) in RGB: rgb(222, 219, 210)
+        const startColor = { r: 222, g: 219, b: 210 };
+
+        // End color (#AE2012) in RGB: rgb(174, 32, 18)
+        const endColor = { r: 174, g: 32, b: 18 };
+
+        // Interpolate between the start and end colors
+        const r = Math.round(startColor.r + (endColor.r - startColor.r) * ratio);
+        const g = Math.round(startColor.g + (endColor.g - startColor.g) * ratio);
+        const b = Math.round(startColor.b + (endColor.b - startColor.b) * ratio);
+
+        return `rgb(${r}, ${g}, ${b})`;
     };
 
     return (
+
         <div className="container">
+            <meta name="viewport" content="width=device-width,initial-scale=1shrink-to-fit=no"/>
+            <div className="Header">
+                <img src="/logo.png" alt="Logo" className="logo"/>
+                <h2 className="header-text">IsMyHouseOnFire.tech</h2>
+
+                <div className="right-section">
+                    <input
+                        type="text"
+                        placeholder="Enter your device code"
+                        value={deviceCode}
+                        onChange={(e) => setDeviceCode(e.target.value)}
+                        className="header-input"
+                    />
+                    <button onClick={handleConnect} className="header-button">Connect</button>
+                </div>
+            </div>
             {/* Render different views based on the isConnected state */}
             {!isConnected ? (
                 // Connect Page
@@ -60,12 +99,13 @@ function IsMyHouseOnFire() {
                     {incorrectCode && (
                         <div className="wrong_code">
                             <h3>Incorrect Code, Try Again! </h3>
-                        </div> )
+                        </div>)
                     }
                     <div className="funny_text">
                         <h2>Enter Your Device Code to Find Out!</h2>
                     </div>
-                    <div className="empty-space"></div> {/* Adds empty space */}
+                    <div className="empty-space"></div>
+                    {/* Adds empty space */}
                     <div className="banner">
                         <img src="/flames.png" alt="Banner"/>
                     </div>
@@ -76,7 +116,7 @@ function IsMyHouseOnFire() {
                     <div className="title">
                         <h1>{getStatusMessage()}</h1>
                     </div>
-                    <div className="oven_on_text">
+                    <div className="oven_on_text" style={{color: getGradientColor()}}>
                         <h2>Oven Has Been On For: {ovenOnDuration} Seconds</h2>
                     </div>
                     <div className="streaming-section">
@@ -99,7 +139,7 @@ function IsMyHouseOnFire() {
                         className="adaptive_banner"
                         style={{
                             maxWidth: '100%',
-                            height: `${Math.min(10*ovenOnDuration+100, 500)}px`,
+                            height: `${Math.min(10 * ovenOnDuration + 100, 500)}px`,
                             width: '100%',
                             objectFit: 'fill',
                             animation: 'flicker 1.5s infinite ease-in-out'
