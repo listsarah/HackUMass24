@@ -3,18 +3,25 @@ import './App.css';
 
 function IsMyHouseOnFire() {
     const [deviceCode, setDeviceCode] = useState('');
+    const [deviceCode2, setDeviceCode2] = useState('');
     const [isConnected, setIsConnected] = useState(false);
     const [incorrectCode, setIncorrectCode] = useState(false);
     const [ovenOnDuration, setOvenOnDuration] = useState(0);
     const [ovenOnDetected, setOvenOnDetected] = useState(true);
 
     const handleConnect = () => {
-        console.log(`Connecting to device with code: ${deviceCode}`);
-        setDeviceCode("")
-        if(deviceCode === '51413'){
-            setIsConnected(true);
-            setIncorrectCode(false);}
-        else setIncorrectCode(true);
+        try {
+            console.log(`Connecting to device with code: ${deviceCode}`);
+            setDeviceCode("");
+            if (deviceCode === '51413' || deviceCode2 === '51413') {
+                setIsConnected(true);
+                setIncorrectCode(false);
+            } else {
+                setIncorrectCode(true);
+            }
+        } catch (error) {
+            console.error("Error in handleConnect:", error);
+        }
     };
 
     const handleDisconnect = () => {
@@ -64,26 +71,25 @@ function IsMyHouseOnFire() {
     return (
 
         <div className="container">
-            <meta name="viewport" content="width=device-width,initial-scale=1shrink-to-fit=no"/>
-            <div className="Header">
-                <img src="/logo.png" alt="Logo" className="logo"/>
-                <h2 className="header-text">IsMyHouseOnFire.tech</h2>
-
-                <div className="right-section">
-                    <input
-                        type="text"
-                        placeholder="Enter your device code"
-                        value={deviceCode}
-                        onChange={(e) => setDeviceCode(e.target.value)}
-                        className="header-input"
-                    />
-                    <button onClick={handleConnect} className="header-button">Connect</button>
-                </div>
-            </div>
             {/* Render different views based on the isConnected state */}
             {!isConnected ? (
                 // Connect Page
                 <div className="connect-page">
+                    <div className="Header">
+                        <img src="/logo.png" alt="Logo" className="logo"/>
+                        <h2 className="header-text">IsMyHouseOnFire.tech</h2>
+
+                        <div className="right-section">
+                            <input
+                                type="text"
+                                placeholder="Enter your device code"
+                                value={deviceCode2}
+                                onChange={(e) => setDeviceCode2(e.target.value)}
+                                className="header-input"
+                            />
+                            <button onClick={handleConnect} className="header-button">Connect</button>
+                        </div>
+                    </div>
                     <div className="title">
                         <h1>Is My House On Fire?</h1>
                     </div>
@@ -113,6 +119,14 @@ function IsMyHouseOnFire() {
             ) : (
                 // Main Content Page
                 <div className="main-content">
+                    <div className="Header">
+                        <img src="/logo.png" alt="Logo" className="logo"/>
+                        <h2 className="header-text">IsMyHouseOnFire.tech</h2>
+
+                        <div className="right-section-main">
+                            <button onClick={handleDisconnect}>Disconnect</button>
+                        </div>
+                    </div>
                     <div className="title">
                         <h1>{getStatusMessage()}</h1>
                     </div>

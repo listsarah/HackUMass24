@@ -10,9 +10,10 @@
 }
 
 .title {
-  margin-top: 150px;
+  margin-top: 110px;
   text-align: center;
-  font-size: large;
+  font-size: 30px;
+
 }
 
 .Header {
@@ -51,8 +52,8 @@ input {
   font-size: 16px;
   color: #DEDBD2;
   background-color: #1C1C22;
-  border-radius: 7px;
-  border: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 button {
@@ -101,7 +102,7 @@ body {
 
 .banner img {
   max-width: 100%;
-  height: 390px;
+  height: 350px;
   width: 100%;
   object-fit: fill;
   animation: flicker 1.5s infinite ease-in-out;
@@ -168,7 +169,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding-left: 400px;
+  padding-left: 600px;
 }
 
 .header-input {
@@ -197,28 +198,28 @@ body {
 
   .title {
     margin-top: 100px;
-    font-size: 30px; /* Smaller font size for mobile */
+    font-size: 30px;
   }
 
   .Header {
     padding: 10px;
-    flex-direction: row; /* Stack items vertically on small screens */
+    flex-direction: row;
     align-items: flex-start;
   }
 
   .logo {
-    width: 50px; /* Smaller logo for mobile */
+    width: 50px;
     margin-bottom: 10px;
   }
 
   .header-text {
-    font-size: 24px; /* Adjusted font size */
+    font-size: 24px;
     margin-left: 0;
   }
 
   .header-input, .header-button {
     font-size: 14px;
-    width: 100%; /* Full width on mobile */
+    width: 100%;
   }
 
   .connection-section, .streaming-section, .graphs-section {
@@ -226,11 +227,12 @@ body {
   }
 
   .banner, .adaptive_banner {
-    height: auto; /* Let banner adjust to the screen */
+    height: auto;
+    transform: translateY(15px);
   }
 
   .banner img {
-    height: 400px; /* Adjusted height for mobile */
+    height: 380px;
   }
 
   .funny_text {
@@ -239,9 +241,16 @@ body {
   }
 
   .disconnect_button {
-    margin-bottom: 100px;
+    margin-bottom: 500px;
   }
   .right-section{
     display: none;
   }
+}
+
+.right-section-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 800px;
 }
