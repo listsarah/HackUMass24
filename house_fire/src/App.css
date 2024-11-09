@@ -1,0 +1,64 @@
+/* styles.css */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.title {
+  text-align: center;
+  font-size: 50px;
+}
+
+.connection-section,
+.streaming-section,
+.graphs-section {
+  margin-bottom: 40px;
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+  color: #DEDBD2;
+  background-color: #1C1C22;
+  border-radius: 7px;
+  border: none;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-left: 10px;
+  background-color: #1C1C22;
+  border-radius: 7px;
+  color: #DEDBD2;
+  outline: none;
+  box-shadow: none;
+  border-color: #DEDBD2;
+}
+
+.stream-placeholder,
+.graph-placeholder {
+  border: 1px dashed #ccc;
+  padding: 50px;
+  margin-top: 20px;
+}
+
+body {
+  background-color: #2C2C34;
+  margin: 0;
+  padding: 0;
+  color: #DEDBD2;
+}
+
+.banner {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.banner img {
+  max-width: 100%;
+  height: auto;
+}
