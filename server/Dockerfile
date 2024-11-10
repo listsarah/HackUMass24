@@ -18,4 +18,3 @@ EXPOSE 8080
 
 # Run the application using Gunicorn
 CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]
-add
