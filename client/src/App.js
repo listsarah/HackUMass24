@@ -3,27 +3,52 @@ import './App.css';
 
 function IsMyHouseOnFire() {
     const [deviceCode, setDeviceCode] = useState('');
-    const [deviceCode2, setDeviceCode2] = useState('');
     const [isConnected, setIsConnected] = useState(false);
     const [incorrectCode, setIncorrectCode] = useState(false);
     const [ovenOnDuration, setOvenOnDuration] = useState(0);
+    const [ovenLifetimeDuration, setOvenLifetimeDuration] = useState(0);
     const [ovenOnDetected, setOvenOnDetected] = useState(true);
     const [easterEgg, setEasterEgg] = useState(false);
 
     const handleConnect = () => {
         try {
-            console.log(`Connecting to device with code: ${deviceCode}`);
-            setDeviceCode("");
-            if (deviceCode === '51413' || deviceCode2 === '51413') {
-                setIsConnected(true);
-                setIncorrectCode(false);
-            } else {
-                setIncorrectCode(true);
-            }
+            sendRequest().then((data) => {
+                console.log(data)
+                const current = data.current
+                const lifetime = data.lifetime
+                if (current === 0 && lifetime === 0) {
+                    setIncorrectCode(true);
+                }
+                else {
+                    setIsConnected(true);
+                    setIncorrectCode(false);
+                    setOvenOnDuration(Math.floor(current));
+                    setOvenLifetimeDuration(Math.floor(lifetime));
+                }
+                setDeviceCode("");
+            })
+
         } catch (error) {
             console.error("Error in handleConnect:", error);
         }
     };
+
+    async function sendRequest() {
+        const url = `http://api.ismyhouseonfire.tech/getinfo?code=${encodeURIComponent(deviceCode)}`;
+        console.log(url);
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                console.error(`HTTP error! Status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error("Error in sendRequest:", error);
+            throw error;
+        }
+    }
+
 
     const handleDisconnect = () => {
         console.log(`Disconnected from device with code: ${deviceCode}`);
@@ -39,6 +64,7 @@ function IsMyHouseOnFire() {
         if (isConnected && ovenOnDetected) {
             interval = setInterval(() => {
                 setOvenOnDuration(prevDuration => prevDuration + 1);
+                setOvenLifetimeDuration(prevDuration => prevDuration + 1);
             }, 1000);
         }
         return () => clearInterval(interval);
@@ -123,21 +149,7 @@ function IsMyHouseOnFire() {
                         </div>
                         <div className="oven_on_text" style={{ color: getGradientColor() }}>
                             <h2>Oven Has Been On For: {ovenOnDuration} Seconds</h2>
-                        </div>
-                        <div className="streaming-section">
-                            <h2>Live Stream</h2>
-                            <div className="stream-placeholder">
-                                <p>Streaming content will appear here.</p>
-                            </div>
-                        </div>
-                        <div className="graphs-section">
-                            <h2>Analytics</h2>
-                            <div className="graph-placeholder">
-                                <p>Graphs will appear here.</p>
-                            </div>
-                        </div>
-                        <div className="disconnect_button">
-                            <button onClick={handleDisconnect}>Disconnect</button>
+                            <h2>Lifetime: {ovenLifetimeDuration} Seconds</h2>
                         </div>
                         <div
                             className="adaptive_banner"
