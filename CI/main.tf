@@ -1,26 +1,26 @@
-resource "google_cloud_run_service" "flask_api" {
-  for_each = { for idx in range(1, var.next_api_index + 1) : idx => idx }
-  name     = "flask-api-${each.key}"
-  location = var.region
-  project  = var.project_id
-
-  template {
-    spec {
-      containers {
-        image = "gcr.io/${var.project_id}/flask-api:${var.image_tag}"
-        env {
-          name  = "API_URL"
-          value = "http://api${each.key}.ismyhouseonfire.tech"
-        }
-      }
-    }
-  }
-
-  autogenerate_revision_name = true
-  lifecycle {
-    prevent_destroy = true
-  }
-}
+#resource "google_cloud_run_service" "flask_api" {
+#  for_each = { for idx in range(1, var.next_api_index + 1) : idx => idx }
+#  name     = "flask-api-${each.key}"
+#  location = var.region
+#  project  = var.project_id
+#
+#  template {
+#    spec {
+#      containers {
+#        image = "gcr.io/${var.project_id}/flask-api:${var.image_tag}"
+#        env {
+#          name  = "API_URL"
+#          value = "http://api${each.key}.ismyhouseonfire.tech"
+#        }
+#      }
+#    }
+#  }
+#
+#  autogenerate_revision_name = true
+#  lifecycle {
+#    prevent_destroy = true
+#  }
+#}
 
 
 resource "google_dns_record_set" "api_dns" {
