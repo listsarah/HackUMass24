@@ -1,6 +1,5 @@
 from flask import Flask, request, abort
 from db import get_info, set_oven_status
-from model import is_on
 app = Flask(__name__)
 
 
@@ -10,20 +9,10 @@ def route():
 
 @app.route('/upload', methods=["POST"])
 def upload():
-    code = request.form.get("code")
-    key = request.form.get("key")
-    if len(request.files) == 0:
-        return abort(400)
-
-    file = next(iter(request.files.values()))
-
-    if file.filename == '':
-        return abort(400)
-
-    if not file:
-        return abort(400)
-
-    status = is_on(file)
+    json = request.get_json()
+    code = json["code"]
+    key = json["key"]
+    status = json["status"] == "true"
     result = set_oven_status(code, key, status)
     if result == 200:
         return {"success": True}
@@ -32,8 +21,8 @@ def upload():
 
 @app.route('/getinfo')
 def getinfo():
-
-    get_info()
+    code = request.args.get("code")
+    return get_info(code)
 
 
 if __name__ == '__main__':
