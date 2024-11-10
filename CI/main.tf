@@ -1,5 +1,6 @@
 resource "google_cloud_run_service" "flask_api" {
-  name     = "flask-api-${count.index + 1}" # Incrementing service name
+  for_each = { for idx in range(1, var.next_api_index + 1) : idx => idx }
+  name     = "flask-api-${each.key}"
   location = var.region
   project  = var.project_id
 
@@ -9,22 +10,25 @@ resource "google_cloud_run_service" "flask_api" {
         image = "gcr.io/${var.project_id}/flask-api:${var.image_tag}"
         env {
           name  = "API_URL"
-          value = "http://api${count.index + 1}.ismyhouseonfire.tech"
+          value = "http://api${each.key}.ismyhouseonfire.tech"
         }
       }
     }
   }
 
   autogenerate_revision_name = true
-  count = var.next_api_index
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
+
 resource "google_dns_record_set" "api_dns" {
-  name         = "api${count.index + 1}.ismyhouseonfire.tech."
+  name         = "api${var.next_api_index}.ismyhouseonfire.tech."
   type         = "CNAME"
   ttl          = 300
   managed_zone = google_dns_managed_zone.my_zone.name
-  rrdatas      = ["flask-api-${count.index + 1}-svgkugxoaa-uc.a.run.app."]  # Ensure trailing dot for rrdatas
+  rrdatas      = ["flask-api-${var.next_api_index}-svgkugxoaa-uc.a.run.app."]
   project      = var.project_id
   count        = var.next_api_index
 }
