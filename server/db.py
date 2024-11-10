@@ -69,9 +69,14 @@ def set_oven_status(code, key, oven_on_status):
         # Check if there is a matching auth entry
         auth_check = auth_collection.find_one({"code": code, "key": key})
 
+        # If no auth entry exists, check if there are any data records for the code
         if not auth_check:
-            print("Authorization failed: Invalid code or key.")
-            return 403
+            data_check = data_collection.find_one({"code": code})
+            if not data_check:
+                print("No existing data records found for code. Allowing write.")
+            else:
+                print("Authorization failed: Invalid code or key.")
+                return 403
 
         # Create a new document with the current timestamp and oven status
         new_record = {

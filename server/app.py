@@ -10,8 +10,9 @@ def route():
 
 @app.route('/upload', methods=["POST"])
 def upload():
-    code = request.form.get("code")
-    key = request.form.get("key")
+    json = request.get_json()
+    code = json["code"]
+    key = json["key"]
     if len(request.files) == 0:
         return abort(400)
 
@@ -32,8 +33,8 @@ def upload():
 
 @app.route('/getinfo')
 def getinfo():
-
-    get_info()
+    code = request.get_json()["code"]
+    return get_info(code)
 
 
 if __name__ == '__main__':
