@@ -18,14 +18,16 @@ function IsMyHouseOnFire() {
                 const lifetime = data.lifetime
                 if (current === 0 && lifetime === 0) {
                     setIncorrectCode(true);
+                    setDeviceCode("");
                 }
                 else {
                     setIsConnected(true);
                     setIncorrectCode(false);
                     setOvenOnDuration(Math.floor(current));
                     setOvenLifetimeDuration(Math.floor(lifetime));
+
                 }
-                setDeviceCode("");
+
             })
 
         } catch (error) {
@@ -35,7 +37,6 @@ function IsMyHouseOnFire() {
 
     async function sendRequest() {
         const url = `http://api.ismyhouseonfire.tech/getinfo?code=${encodeURIComponent(deviceCode)}`;
-        console.log(url);
 
         try {
             const response = await fetch(url);
@@ -63,8 +64,15 @@ function IsMyHouseOnFire() {
         let interval;
         if (isConnected && ovenOnDetected) {
             interval = setInterval(() => {
-                setOvenOnDuration(prevDuration => prevDuration + 1);
-                setOvenLifetimeDuration(prevDuration => prevDuration + 1);
+                sendRequest().then((data) => {
+                    console.log(data)
+                    setIsConnected(true);
+                    setIncorrectCode(false);
+                    setOvenOnDuration(Math.floor(data.current));
+                    setOvenLifetimeDuration(Math.floor(data.lifetime));
+                })
+                // setOvenOnDuration(prevDuration => prevDuration + 1);
+                // setOvenLifetimeDuration(prevDuration => prevDuration + 1);
             }, 1000);
         }
         return () => clearInterval(interval);
