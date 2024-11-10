@@ -14,14 +14,7 @@ def get_info(code):
         # Aggregation pipeline to get all relevant records sorted by timestamp
         pipeline = [
             {"$match": {"code": code}},
-            {"$sort": {"time": 1}},  # Sort by time in ascending order
-            {
-                "$project": {
-                    "time": 1,
-                    "oven_on": 1,
-                    "next_timestamp": {"$arrayElemAt": ["$timestamp", 1]}
-                }
-            }
+            {"$sort": {"time": 1}}  # Sort by time in ascending order
         ]
 
         # Fetch the data
@@ -34,19 +27,26 @@ def get_info(code):
         most_recent_status = data[-1]["oven_on"]
         now = datetime.utcnow()
 
-        # Iterate through data to calculate the duration when the oven was 'on'
-        for i in range(len(data) - 1):
+        last_on_time = None
+        for i in range(len(data)):
             if data[i]["oven_on"]:
-                time_diff = (data[i + 1]["time"] - data[i]["time"]).total_seconds()
-                lifetime_seconds += time_diff
+                if last_on_time is None:
+                    last_on_time = data[i]["time"]
+            else:
+                if last_on_time:
+                    time_diff = (data[i]["time"] - last_on_time).total_seconds()
+                    lifetime_seconds += time_diff
+                    last_on_time = None
 
-        # Add the time from the most recent record to now if it is 'on'
-        if most_recent_status:
-            time_diff = (now - data[-1]["time"]).total_seconds()
-            lifetime_seconds += time_diff
+        if last_on_time:
+            lifetime_seconds += (now - last_on_time).total_seconds()
 
-        # Calculate the time difference from the most recent 'on' status to now
-        current_seconds = (now - data[-1]["time"]).total_seconds() if most_recent_status else 0
+        # Calculate current "on" duration since the last "off"
+        current_seconds = 0
+        for i in range(len(data) - 1, -1, -1):
+            if not data[i]["oven_on"]:
+                break
+            current_seconds = (now - data[i]["time"]).total_seconds()
 
         return jsonify({
             "current": current_seconds,
