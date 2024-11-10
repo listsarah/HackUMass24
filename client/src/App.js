@@ -76,19 +76,14 @@ function IsMyHouseOnFire() {
                     // Connect Page
                     <div className="connect-page">
                         <div className="Header">
-                            <img src="/logo.png" alt="Logo" className="logo" />
-                            <h2 className="header-text">IsMyHouseOnFire.tech</h2>
-                            <button onClick={() => handleHiddenButton()} className="hidden-button"></button>
+                            <div style={{display: "flex"}}>
+                                <img src="/logo.png" alt="Logo" className="logo" />
+                                <h2 className="header-text">IsMyHouseOnFire.tech</h2>
+                                <button onClick={() => handleHiddenButton()} className="hidden-button"></button>
+                            </div>
 
                             <div className="right-section">
-                                <input
-                                    type="text"
-                                    placeholder="Enter your device code"
-                                    value={deviceCode2}
-                                    onChange={(e) => setDeviceCode2(e.target.value)}
-                                    className="header-input"
-                                />
-                                <button onClick={handleConnect} className="header-button">Connect</button>
+                                <h2>It might be!</h2>
                             </div>
                         </div>
                         <div className="title">
@@ -108,10 +103,6 @@ function IsMyHouseOnFire() {
                                 <h3>Incorrect Code, Try Again!</h3>
                             </div>
                         )}
-                        <div className="funny_text">
-                            <h2>Enter Your Device Code to Find Out!</h2>
-                        </div>
-                        <div className="empty-space"></div>
                         <div className="banner">
                             <img src="/flames.png" alt="Banner" />
                         </div>

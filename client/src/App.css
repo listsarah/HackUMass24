@@ -19,7 +19,7 @@
 .Header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   width: 100%; /* Makes the header span the entire page width */
   padding: 5px 20px; /* Adds padding around the header */
   background-color: #2C2C34; /* Background color for the header */
@@ -170,6 +170,7 @@ body {
   align-items: center;
   gap: 10px;
   padding-left: 600px;
+  overflow: hidden;
 }
 
 .header-input {
